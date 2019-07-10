@@ -40,6 +40,7 @@ class ItemsServiceImpl(pref: SharedPreferences) : ItemsService{
 
     override fun findNow(): ItemsOfBMI? {
         Log.d("ItemsServiceImpl#findnow" ,"保存したデータを参照します。${this.nowString()}")
+        Log.d("ItemsServiceImpl#findnow" ,"取得対象データ -> ${this.itemsDao.findById(this.nowString())}")
         itemsDao.flush()
         return itemsDao.findById(this.nowString())
     }

@@ -8,87 +8,115 @@
             android:text="@string/column_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView10"
-            app:layout_constraintBottom_toBottomOf="@+id/dateColumn"
-            app:layout_constraintStart_toStartOf="@+id/textView2" android:layout_marginStart="150dp"
-            app:layout_constraintTop_toTopOf="@+id/dateColumn"/>
+            android:id="@+id/weighTextColumn"
+            app:layout_constraintStart_toStartOf="@+id/view6"
+            app:layout_constraintTop_toTopOf="@+id/dateColumn"
+            app:layout_constraintBottom_toBottomOf="@+id/dateColumn"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/weightColumn" android:text="@string/default_decimal_text"
-            app:layout_constraintTop_toTopOf="@+id/textView10" app:layout_constraintStart_toEndOf="@+id/textView10"
-            app:layout_constraintBottom_toBottomOf="@+id/textView10"/>
+            app:layout_constraintStart_toEndOf="@+id/weighTextColumn"
+            app:layout_constraintTop_toTopOf="@+id/weighTextColumn"
+            app:layout_constraintBottom_toBottomOf="@+id/weighTextColumn"/>
     <TextView
             android:text="@string/column_height"
             android:layout_width="wrap_content"
-            android:layout_height="17dp"
+            android:layout_height="20dp"
             android:id="@+id/textView7"
-            app:layout_constraintStart_toEndOf="@+id/dateColumn"
-            android:layout_marginStart="32dp" app:layout_constraintTop_toTopOf="@+id/dateColumn"
+            app:layout_constraintStart_toStartOf="@+id/view5"
+            app:layout_constraintTop_toTopOf="@+id/dateColumn"
             app:layout_constraintBottom_toBottomOf="@+id/dateColumn"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/heightColumn" android:text="@string/default_decimal_text"
-            app:layout_constraintBottom_toBottomOf="@+id/textView7"
-            app:layout_constraintTop_toTopOf="@+id/textView7" app:layout_constraintStart_toEndOf="@+id/textView7"
-    />
+            app:layout_constraintTop_toTopOf="@+id/textView7" app:layout_constraintBottom_toBottomOf="@+id/textView7"
+            app:layout_constraintStart_toEndOf="@+id/textView7"/>
     <TextView
             android:text="@string/weight_unit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView9"
+            android:id="@+id/kg"
+            android:textAlignment="center"
             app:layout_constraintStart_toEndOf="@+id/weightColumn"
-            app:layout_constraintBottom_toBottomOf="@+id/weightColumn"
-            app:layout_constraintTop_toTopOf="@+id/weightColumn" android:textAlignment="center"/>
+            app:layout_constraintTop_toTopOf="@+id/weightColumn"
+            app:layout_constraintBottom_toBottomOf="@+id/weightColumn"/>
     <TextView
             android:text="@string/column_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/dateColumn"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:textStyle="bold" android:textSize="16sp"
-            android:textAlignment="textEnd" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.042"/>
+            android:textAlignment="textEnd"
+            app:layout_constraintStart_toStartOf="@+id/view3"
+            app:layout_constraintTop_toTopOf="@+id/view3"
+            app:layout_constraintBottom_toBottomOf="@+id/view3"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/bmiColumn" android:text="@string/default_decimal_short_text"
-            app:layout_constraintStart_toEndOf="@+id/textView000"
-            app:layout_constraintTop_toTopOf="@+id/textView000"
-            app:layout_constraintBottom_toBottomOf="@+id/textView000"
-            app:layout_constraintVertical_bias="0.0" android:layout_marginBottom="8dp"/>
+            app:layout_constraintStart_toEndOf="@+id/bmiTextColumn"
+            app:layout_constraintTop_toTopOf="@+id/bmiTextColumn"
+            app:layout_constraintBottom_toBottomOf="@+id/bmiTextColumn"/>
     <TextView
             android:text="@string/height_unit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView5"
+            android:id="@+id/cm"
+            app:layout_constraintStart_toEndOf="@+id/heightColumn"
             app:layout_constraintTop_toTopOf="@+id/heightColumn"
-            app:layout_constraintBottom_toBottomOf="@+id/heightColumn" app:layout_constraintStart_toEndOf="@+id/heightColumn"
-    />
+            app:layout_constraintBottom_toBottomOf="@+id/heightColumn"/>
     <TextView
             android:text="@string/column_bmi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView000"
-            app:layout_constraintBottom_toBottomOf="@+id/dateColumn"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            android:layout_marginStart="260dp"
-            app:layout_constraintTop_toTopOf="@+id/dateColumn"/>
+            android:id="@+id/bmiTextColumn"
+            app:layout_constraintStart_toStartOf="@+id/view7"
+            app:layout_constraintTop_toTopOf="@+id/dateColumn"
+            app:layout_constraintBottom_toBottomOf="@+id/dateColumn"/>
     <TextView
             android:text="@string/date_row_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView2" app:layout_constraintStart_toEndOf="@+id/dateColumn"
+            android:id="@+id/dateTextColumn"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/dateColumn"
             app:layout_constraintTop_toTopOf="@+id/dateColumn"
-            app:layout_constraintBottom_toBottomOf="@+id/dateColumn" app:layout_constraintVertical_bias="1.0"
-            android:textSize="16sp"/>
+            app:layout_constraintBottom_toBottomOf="@+id/dateColumn"/>
     <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:id="@+id/view" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" android:background="@android:color/darker_gray"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:id="@+id/view"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+    <View
+            android:layout_width="60dp"
+            android:layout_height="0dp"
+            android:id="@+id/view3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/view5"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/view"/>
+    <View
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/view5"
+            app:layout_constraintStart_toEndOf="@+id/view3" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/view6" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" app:layout_constraintVertical_bias="1.0"/>
+    <View
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/view6"
+            app:layout_constraintStart_toEndOf="@+id/view5" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/view7" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" app:layout_constraintVertical_bias="1.0"/>
+    <View
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/view7"
+            app:layout_constraintStart_toEndOf="@+id/view6"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/view"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

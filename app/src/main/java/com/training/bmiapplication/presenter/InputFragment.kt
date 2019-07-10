@@ -69,28 +69,12 @@ class InputFragment : Fragment() {
         val button = view.findViewById<View>(R.id.calcButton)
         button?.setOnClickListener {
             // 検証用メッセージ
-            Log.d("InputFragment#onCreateView","「BMIを計算する」ボタンが押下されました")
+            Log.d("InputFragment#onCreateView", "「BMIを計算する」ボタンが押下されました")
 
-            // バリデーション
-            if(textIsEmpty(
-                    heightInput,
-                    HEIGHT_TYPE
-                )
-                && textIsEmpty(
-                    weightInput,
-                    WEIGHT_TYPE
-                )
-                && textCheckRegex(
-                    heightInput,
-                    HEIGHT_TYPE,
-                    INPUT_REGEX
-                )
-                && textCheckRegex(
-                    weightInput,
-                    WEIGHT_TYPE,
-                    INPUT_REGEX
-                )
-            ) {
+            if (textIsEmpty(heightInput ,HEIGHT_TYPE)
+                && textIsEmpty(weightInput , WEIGHT_TYPE)
+                && textCheckRegex(heightInput , HEIGHT_TYPE , INPUT_REGEX)
+                && textCheckRegex(weightInput , WEIGHT_TYPE , INPUT_REGEX)) {
 
                 // 身長と体重の入力情報をセットする
                 item = ItemsOfBMI(
@@ -103,16 +87,15 @@ class InputFragment : Fragment() {
                 // BMIを表示する
                 bmiResult.text = item.calcBMI()
 
-                Log.d("InputFragment#calcButton Click" ,"saveメソッド直前！")
+                Log.d("InputFragment#calcButton Click", "saveメソッド直前！")
                 // 計算したBMIをオブジェクトに保存
-                if(!itemsService.save(item)) {
-                    itemsService.update(item.id ,item)
+                if (!itemsService.save(item)) {
+                    itemsService.update(item.id, item)
                 }
 
-                Log.d("InputFragment#calcButton Click" ,"saveメソッド直後！")
+                Log.d("InputFragment#calcButton Click", "saveメソッド直後！")
             }
         }
-
         return view
     }
 }

@@ -1,6 +1,8 @@
 package com.training.bmiapplication.presenter
 
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -13,6 +15,7 @@ import com.training.bmiapplication.R
 import com.training.bmiapplication.entity.ItemsOfBMI
 import com.training.bmiapplication.service.ItemsService
 import com.training.bmiapplication.service.ItemsServiceImpl
+import kotlinx.android.synthetic.main.fragment_input.*
 import kotlinx.android.synthetic.main.fragment_result.*
 
 private const val KEY_BMI = "KEY_BMI"
@@ -39,7 +42,7 @@ class ResultFragment : Fragment(){
         itemsService = ItemsServiceImpl(pref)
 
         /** 保存ボタン押下時処理 */
-        val saveButton = view.findViewById<View>(R.id.save)
+        val saveButton = view?.findViewById<View>(R.id.save)
         saveButton?.setOnClickListener {
             Log.d("ResultFragment#onCreateView" ,"「保存」ボタンが押下されました")
 
@@ -53,12 +56,18 @@ class ResultFragment : Fragment(){
                 // ちょっと冗長... 余裕があったら修正する
                 itemsService.update(it.id ,it)
 
+                // メッセージダイアログを表示する
+                AlertDialog.Builder(activity)
+                    .setMessage("保存したよ！")
+                    .setPositiveButton("OK" ,null)
+                    .show()
+
                 Log.d("ResultFragment#onCreateView" ,"更新処理が正常に完了しました。")
             }
         }
 
         /** 削除ボタン押下時処理 */
-        val deleteButton = view.findViewById<View>(R.id.delete)
+        val deleteButton = view?.findViewById<View>(R.id.delete)
         deleteButton?.setOnClickListener {
             Log.d("ResultFragment#onCreateView" ,"「削除」ボタンが押下されました。")
 
@@ -67,6 +76,26 @@ class ResultFragment : Fragment(){
             // Entityと一応Formだから分けた方がよかった...
             item?.id?.let {
                 itemsService.delete(it)
+
+                // メッセージダイアログを表示する
+                AlertDialog.Builder(activity)
+                    .setMessage("消しちゃったよ！")
+                    .setPositiveButton("OK" ,null)
+                    .show()
+
+                // 入力欄のFragmentを取得する
+                val parent = parentFragment
+
+                val height = parent?.heightInput
+                val weight = parent?.weightInput
+                val result = parent?.bmiResult
+
+                height?.setText("")
+                weight?.setText("")
+
+                result?.text = "00.0"
+                inputDetail?.setText("")
+
 
                 Log.d("ResultFragment#onCreateView" ,"削除処理が正常に完了しました。")
             }

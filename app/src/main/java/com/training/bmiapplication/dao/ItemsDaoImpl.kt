@@ -35,20 +35,30 @@ class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
     }
 
     override fun findAll(): List<ItemsOfBMI> {
-        // ここでNULLチェックはなし
-        val list = pref.getStringSet(KEY_ITEMS_LIST ,null)
+        // 共有プリファレンスの状態を読み込み
+        this.readSharedPreference()
 
-        list?.let {
-            itemsList = jsonSetToObject(it)
+        itemsList.forEach {
+            Log.d("ItemsDaoImp#findAll ソート前 =>" ,"$it")
         }
 
-        return this.itemsList.toList()
+        this.itemsList.toList().sortedBy { it.id }.forEach {
+            Log.d("ItemsDaoImp#findAll ソート後 =>" ,"$it")
+        }
+
+        return this.itemsList.toList().sortedBy { it.id }
     }
 
     override fun findById(id: String): ItemsOfBMI?{
-        for (item in itemsList) {
-            Log.d("ItemsDaoImpl#findById" ,"$id == ${item.id} => ${item.id.equals(id)}")
-            if (item.id == id) return item
+        // 共有プリファレンスの状態を読み込み
+        this.readSharedPreference()
+
+        itemsList.forEach {
+            Log.d("" ,"$it")
+            if (it.id == id) {
+                Log.d("ItemsDaoImpl#findById" ,"$id == ${it.id} => ${it.id.equals(id)}")
+                return it
+            }
         }
         // 対象のIDがなければNULLを返却する
         return null
@@ -107,6 +117,16 @@ class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
         Log.d("ItemsDaoImpl#flush" ,"共有プリファレンスへの保存が完了しました。 結果 -> $saved")
     }
 
+    /**
+     *
+     */
+    private fun readSharedPreference() {
+        val list = pref.getStringSet(KEY_ITEMS_LIST ,null)
+
+        list?.let {
+            itemsList = jsonSetToObject(it)
+        }
+    }
     /**
      * SharedPreferenceから取得したMutableSet<String>をオブジェクトとして使えるようにする
      * @param {MutableSet<String>} SharedPreferenceから取得した値
