@@ -25,7 +25,6 @@
             android:layout_width="0dp"
             android:layout_height="430dp"
             app:layout_constraintTop_toBottomOf="@+id/titleFragment" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:id="@+id/container">
-
-    </FrameLayout>
+            app:layout_constraintEnd_toEndOf="parent" android:id="@+id/container"
+            app:layout_constraintBottom_toTopOf="@+id/footerFragment"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

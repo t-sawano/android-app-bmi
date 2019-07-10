@@ -8,7 +8,7 @@
     <ImageView
             android:src="?attr/actionModeBackground"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/titleBackground" app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:color/background_light" android:scaleType="centerCrop"
@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/titleText" app:layout_constraintTop_toTopOf="@+id/titleBackground"
-            android:textSize="24sp" android:layout_marginTop="24dp"
-    />
+            android:textSize="18sp"
+            app:layout_constraintHorizontal_bias="0.496" app:layout_constraintBottom_toBottomOf="@+id/titleBackground"
+            app:layout_constraintVertical_bias="1.0"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

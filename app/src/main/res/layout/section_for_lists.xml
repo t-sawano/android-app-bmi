@@ -27,4 +27,10 @@
             app:layout_constraintTop_toTopOf="@+id/monthSection"
             app:layout_constraintBottom_toBottomOf="@+id/monthSection" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintHorizontal_bias="0.0"/>
+    <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:id="@+id/view4" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:background="@android:color/darker_gray"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

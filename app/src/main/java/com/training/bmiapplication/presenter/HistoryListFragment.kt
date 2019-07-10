@@ -32,7 +32,7 @@ class HistoryListFragment : Fragment() {
     ): View? {
 
         // なんで赤い波線はいるんや...
-        pref = PreferenceManager.getDefaultSharedPreferences(activity)
+        pref = PreferenceManager.getDefaultSharedPreferences(this.activity)
         // ItemsServiceにDIする
         itemsService = ItemsServiceImpl(pref)
 
@@ -51,7 +51,7 @@ class HistoryListFragment : Fragment() {
 
 
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(this.activity)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
 
         Log.d("HistoryFragment#onViewCreated" ,"履歴表示終了")
@@ -71,11 +71,21 @@ class HistoryListFragment : Fragment() {
         for (i in 1..40) {
             calendar.add(Calendar.DATE ,3)
 
-            val data = ItemsOfBMI(id = sdf.format(calendar.time.time)
+            var data = ItemsOfBMI(id = sdf.format(calendar.time.time)
                 , height = (i * 10).toString()
                 , weight = i.toString()
                 , memo = "${i}番目のテストメッセージだよ"
             )
+
+            if (i % 3 == 0) {
+                data = ItemsOfBMI(id = sdf.format(calendar.time.time)
+                    , height = (i * 10).toString()
+                    , weight = i.toString()
+                    , memo = """${i}番目のテストメッセージだよ
+                        2行めだよ
+                        3行めだよ""".trimIndent()
+                )
+            }
 
             /** 生成されたデータのうち、月初ならセクションを追加する */
             if (section != data.splitMonth()) {

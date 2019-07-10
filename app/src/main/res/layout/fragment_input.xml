@@ -6,8 +6,8 @@
                                                    tools:context=".presenter.InputFragment" android:id="@+id/frameLayout2">
     <ImageView
             android:src="@android:color/background_light"
-            android:layout_width="0dp"
-            android:layout_height="220dp"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
             android:id="@+id/inputFragment" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0" app:srcCompat="@android:color/background_light"
@@ -26,33 +26,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/height_start_message"
-            app:layout_constraintEnd_toStartOf="@+id/heightInput" android:layout_marginEnd="24dp"
-            app:layout_constraintTop_toTopOf="@+id/heightInput" app:layout_constraintBottom_toBottomOf="@+id/heightInput"/>
+            app:layout_constraintEnd_toStartOf="@+id/heightInput" android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toTopOf="@+id/heightInput"
+            app:layout_constraintBottom_toBottomOf="@+id/heightInput"/>
     <TextView
             android:text="@string/weight_text"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:id="@+id/weight_start_message"
-            app:layout_constraintEnd_toStartOf="@+id/weightInput" android:layout_marginEnd="24dp"
-            app:layout_constraintTop_toTopOf="@+id/weightInput" app:layout_constraintBottom_toBottomOf="@+id/weightInput"/>
+            app:layout_constraintEnd_toStartOf="@+id/weightInput" android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toTopOf="@+id/weightInput"
+            app:layout_constraintBottom_toBottomOf="@+id/weightInput"/>
     <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/heightInput"
             app:layout_constraintTop_toBottomOf="@+id/main_message" android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:autofillHints="" android:autoText="false"/>
+            app:layout_constraintStart_toStartOf="parent" android:autofillHints="" android:autoText="false"
+            android:background="@drawable/input_line_drawable"/>
     <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/weightInput" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/heightInput" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:importantForAutofill="no"/>
+            app:layout_constraintStart_toStartOf="parent" android:importantForAutofill="no"
+            android:background="@drawable/input_line_drawable"/>
     <TextView
             android:text="@string/height_unit_text"
             android:layout_width="wrap_content"
@@ -67,23 +71,27 @@
             android:layout_height="wrap_content"
             android:id="@+id/weight_end_message" app:layout_constraintStart_toEndOf="@+id/weightInput"
             app:layout_constraintBottom_toBottomOf="@+id/weightInput"
-            android:textStyle="bold" android:textSize="18sp" android:layout_marginStart="8dp"/>
+            android:textSize="18sp" android:layout_marginStart="8dp"/>
     <Button
             android:text="@string/calc_button_text"
-            android:layout_width="0dp"
+            android:layout_width="250dp"
             android:layout_height="60dp"
-            android:id="@+id/calcButton" android:layout_marginTop="16dp"
+            android:id="@+id/calcButton" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/weightInput" android:layout_marginEnd="50dp"
             app:layout_constraintEnd_toEndOf="@+id/inputFragment" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="50dp" android:textSize="24sp"
-            android:backgroundTint="@android:color/holo_orange_light" style="@android:style/Widget.Holo.Light.Button"/>
+            style="@android:style/Widget.Holo.Light.Button"
+            android:background="@drawable/sample_drawable"
+            app:layout_constraintBottom_toBottomOf="@+id/inputFragment"
+            app:layout_constraintVertical_bias="0.13999999"/>
     <fragment
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:name="com.training.bmiapplication.presenter.ResultFragment"
             android:id="@+id/resultFragment"
             app:layout_constraintTop_toBottomOf="@+id/inputFragment" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout="@layout/fragment_result"/>
+            tools:layout="@layout/fragment_result"
+            app:layout_constraintHorizontal_bias="1.0"/>
     <View
             android:layout_width="0dp"
             android:layout_height="1dp"
