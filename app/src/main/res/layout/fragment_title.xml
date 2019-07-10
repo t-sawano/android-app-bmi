@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:context=".presenter.TitleFragment" android:id="@+id/frameLayout">
+    <ImageView
+            android:src="?attr/actionModeBackground"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/titleBackground" app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:color/background_light" android:scaleType="centerCrop"
+            android:contentDescription="@string/not_title_image"/>
+    <TextView
+            android:text="@string/none_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/titleText" app:layout_constraintTop_toTopOf="@+id/titleBackground"
+            android:textSize="24sp" android:layout_marginTop="24dp" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/horizontalTitle"/>
+    <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:id="@+id/horizontalTitle" app:layout_constraintEnd_toEndOf="@+id/titleBackground"
+            app:layout_constraintStart_toStartOf="@+id/titleBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/titleBackground"
+            android:background="@android:color/background_dark"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
