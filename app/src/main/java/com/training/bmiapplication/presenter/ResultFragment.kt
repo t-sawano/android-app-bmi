@@ -26,8 +26,7 @@ class ResultFragment : Fragment(){
     // 計算するボタンよりも先に保存するボタンが押下された時用にnullで初期化
     private var item : ItemsOfBMI? = null
 
-    // 共有プリファレンスの情報をDIする
-    private lateinit var pref: SharedPreferences
+    // 共有プリファレンスを操作するクラスを定義する
     private lateinit var itemsService: ItemsService
 
     override fun onCreateView(
@@ -36,27 +35,27 @@ class ResultFragment : Fragment(){
     ): View? {
         val view = inflater.inflate(R.layout.fragment_result, container, false)
 
-        // Activityから共有プリファレンスの情報を取得する
-        pref = PreferenceManager.getDefaultSharedPreferences(activity)
-        // ItemsServiceにDIする
-        itemsService = ItemsServiceImpl(pref)
+        // とりあえず動かなくなったので上長表現に戻しておく。
+        this.itemsService = ItemsServiceImpl(PreferenceManager.getDefaultSharedPreferences(this.activity))
 
         /** 保存ボタン押下時処理 */
         val saveButton = view?.findViewById<View>(R.id.save)
         saveButton?.setOnClickListener {
             Log.d("ResultFragment#onCreateView" ,"「保存」ボタンが押下されました")
 
+            // 先に計算ボタンを押すことが前提なので共有プリファレンスに登録情報があるはず！
             item = itemsService.findNow()
-            Log.d("ResultFragment#onCreateView" ,"保存対象 => $item")
+//            Log.d("ResultFragment#onCreateView" ,"保存対象 => $item")
 
+            /** 計算するボタン押下前よりも先に保存ボタンが押下された時、保存しないようにする。 */
             item?.let {
                 // メモ欄の入力情報をセットする
-                it.memo = inputDetail.text.toString()
+                it.memo = inputDetail.text?.toString()
 
-                // ちょっと冗長... 余裕があったら修正する
+                // ちょっと冗長... 余裕があったら修正する(中身)
                 itemsService.update(it.id ,it)
 
-                // メッセージダイアログを表示する
+                // メッセージダイアログを表示する 詳細設計には書いてなかったけど使いにくいから勝手に追加
                 AlertDialog.Builder(activity)
                     .setMessage("保存したよ！")
                     .setPositiveButton("OK" ,null)
@@ -71,18 +70,20 @@ class ResultFragment : Fragment(){
         deleteButton?.setOnClickListener {
             Log.d("ResultFragment#onCreateView" ,"「削除」ボタンが押下されました。")
 
+            // 削除ボタンが押下されたということは、削除対象があるはず！
             item = itemsService.findNow()
 
-            // Entityと一応Formだから分けた方がよかった...
+            // Entityと一応Formだから分けた方がよかった...（nullableの扱いが面倒...）
             item?.id?.let {
                 itemsService.delete(it)
 
-                // メッセージダイアログを表示する
+                // メッセージダイアログを表示する 仕様にはないよ
                 AlertDialog.Builder(activity)
                     .setMessage("消しちゃったよ！")
                     .setPositiveButton("OK" ,null)
                     .show()
 
+                /** 削除したのに画面に入力情報が残っていると勘違いしそう... */
                 // 入力欄のFragmentを取得する
                 val parent = parentFragment
 
@@ -96,16 +97,21 @@ class ResultFragment : Fragment(){
                 result?.text = "00.0"
                 inputDetail?.setText("")
 
-
                 Log.d("ResultFragment#onCreateView" ,"削除処理が正常に完了しました。")
             }
 
         }
-
         // Inflate the layout for this fragment
         return view
     }
 
+    /** Activityで、ResultFragmentのフィールドパラメータitemsServiceを初期化する。 */
+    fun intoItemsService(service: ItemsService) {
+        Log.d("ResultFragment#intoItemsService" ,"フィールド：itemsServiceを初期化しました。")
+        this.itemsService = service
+    }
+
+    // BMIの計算結果をResultFragmentに表示する。
     private var bmiResult: Double? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

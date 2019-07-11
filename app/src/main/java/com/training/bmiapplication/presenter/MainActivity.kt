@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.training.bmiapplication.R
 import com.training.bmiapplication.service.ItemsService
 import com.training.bmiapplication.service.ItemsServiceImpl
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_footer.*
 
+/** 定数が各クラスにばらけているけど、そこのクラスでしか使わないから... privateなフィールドでよくない？ */
 private const val INPUT_TITLE_TEXT = "入力"
 private const val HISTORY_TITLE_TEXT = "履歴"
 
@@ -19,6 +23,10 @@ class MainActivity : AppCompatActivity() {
     // 共有プリファレンスの情報をDIする
     private lateinit var pref: SharedPreferences
     private lateinit var itemsService: ItemsService
+
+    // FragmentManager FragmentTransactionを扱うためのフィールド
+    private lateinit var fragmentManager: FragmentManager
+    private lateinit var fragmentTransaction: FragmentTransaction
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,12 +37,17 @@ class MainActivity : AppCompatActivity() {
 
         // 初期表示を入力画面とする
         val inputFragment = InputFragment()
-        val fragmentManager = this.supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
+        this.fragmentManager = this.supportFragmentManager
+        this.fragmentTransaction = fragmentManager.beginTransaction()
 
-        fragmentTransaction.replace(R.id.container,inputFragment)
+        this.fragmentTransaction.replace(R.id.container,inputFragment)
             .addToBackStack(null)
             .commit()
+
+        // 共有プリファレンスの状態をMainActivityの生成時に取得する
+        pref = PreferenceManager.getDefaultSharedPreferences(this)
+        itemsService = ItemsServiceImpl(pref)
+        inputFragment.intoItemsService(this.itemsService)
 
         // 共有プリファレンスをMainActivityで使用する
         pref = PreferenceManager.getDefaultSharedPreferences(this)
@@ -49,13 +62,18 @@ class MainActivity : AppCompatActivity() {
             titleFragment?.setTitle(INPUT_TITLE_TEXT)
 
             // 入力画面フラグメントに差し替え
-            val inputFragment = InputFragment()
-            val fragmentManager = this.supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
+            val newInputFragment = InputFragment()
+            this.fragmentManager = this.supportFragmentManager
+            this.fragmentTransaction = this.fragmentManager.beginTransaction()
 
-            fragmentTransaction.replace(R.id.container,inputFragment)
+            // 入力画面フラグメント内フィールドパラメータのitemsServiceにDIする
+            newInputFragment.intoItemsService(this.itemsService)
+
+
+            this.fragmentTransaction.replace(R.id.container,newInputFragment)
                 .addToBackStack(null)
                 .commit()
+
             Log.d("MainActivity#onCreate" ,"入力画面を表示が終わりました。")
         }
 
@@ -67,11 +85,14 @@ class MainActivity : AppCompatActivity() {
             titleFragment?.setTitle(HISTORY_TITLE_TEXT)
 
             // 履歴画面フラグメントに差し替え
-            val fragment = HistoryListFragment()
-            val fragmentManager = this.supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
+            val newHistoryFragment = HistoryListFragment()
+            this.fragmentManager = this.supportFragmentManager
+            this.fragmentTransaction = fragmentManager.beginTransaction()
 
-            fragmentTransaction.replace(R.id.container,fragment)
+            // 履歴画面フラグメントにItemsServiceをDIする。
+            newHistoryFragment.intoItemsService(this.itemsService)
+
+            this.fragmentTransaction.replace(R.id.container,newHistoryFragment)
                 .addToBackStack(null)
                 .commit()
 

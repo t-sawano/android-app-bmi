@@ -8,17 +8,15 @@ import com.training.bmiapplication.entity.ItemsOfBMI
 
 const val KEY_ITEMS_LIST = "KEY_ITEM_LIST"
 
+/** 共有プリファレンスをここで操作する */
 class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
 
     private var itemsList = mutableSetOf<ItemsOfBMI>()
     private var pref = sharedPreferences
 
     init {
-        val json = pref.getStringSet(KEY_ITEMS_LIST , null)
-
-        json?.let {
-            itemsList = jsonSetToObject(it)
-        }
+        // 共有プリファレンスの情報を読み込む
+        this.readSharedPreference()
     }
 
     override fun save(item: ItemsOfBMI): Boolean{
@@ -38,14 +36,7 @@ class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
         // 共有プリファレンスの状態を読み込み
         this.readSharedPreference()
 
-        itemsList.forEach {
-            Log.d("ItemsDaoImp#findAll ソート前 =>" ,"$it")
-        }
-
-        this.itemsList.toList().sortedBy { it.id }.forEach {
-            Log.d("ItemsDaoImp#findAll ソート後 =>" ,"$it")
-        }
-
+        // IDに日付を登録しているので、IDでソートして返却する。
         return this.itemsList.toList().sortedBy { it.id }
     }
 
@@ -56,7 +47,7 @@ class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
         itemsList.forEach {
             Log.d("" ,"$it")
             if (it.id == id) {
-                Log.d("ItemsDaoImpl#findById" ,"$id == ${it.id} => ${it.id.equals(id)}")
+                // IDが一致したレコードを返却する
                 return it
             }
         }
@@ -70,10 +61,6 @@ class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
                 // 更新対象の要素を削除し、新しく更新したものを追加する
                 itemsList.remove(it)
                 itemsList.add(item)
-
-                Log.d("target delete" ,"削除対象 => $it")
-                
-                Log.d("target update" ,"更新対象 => $item")
 
                 // 更新が完了したら true
                 return true
@@ -98,10 +85,6 @@ class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
     override fun flush() {
         val editor = this.pref.edit()
 
-        Log.d("ItemsDaoImpl#flush" ,"""
-            |itemsList size => ${this.itemsList.size} 
-            |itemsList isEmpty => ${this.itemsList.isEmpty()}""".trimMargin())
-
         // 何も保持していない場合は共有プリファレンスから削除する
         if (this.itemsList.isNullOrEmpty()) {
             editor.remove(KEY_ITEMS_LIST)
@@ -114,11 +97,12 @@ class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
         val saved = editor.putStringSet(KEY_ITEMS_LIST ,convertJsonSet())
               .commit()
 
-        Log.d("ItemsDaoImpl#flush" ,"共有プリファレンスへの保存が完了しました。 結果 -> $saved")
+        Log.d("ItemsDaoImpl#flush" ,"共有プリファレンスへの保存が完了しました。")
     }
 
     /**
-     *
+     * 共有プリファレンスの情報を読み込んでキャッシュする。 <br />
+     * ここでは、共有プリファレンスに登録はしない。
      */
     private fun readSharedPreference() {
         val list = pref.getStringSet(KEY_ITEMS_LIST ,null)
@@ -127,6 +111,7 @@ class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
             itemsList = jsonSetToObject(it)
         }
     }
+
     /**
      * SharedPreferenceから取得したMutableSet<String>をオブジェクトとして使えるようにする
      * @param {MutableSet<String>} SharedPreferenceから取得した値
@@ -158,13 +143,7 @@ class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
             list.add(jsonString)
         }
 
-        this.itemsList.forEach {
-            Log.d("ItemDaoImpl#convertJsonSet() : オブジェクトの表示" ," => $it")
-        }
-        list.forEach {
-            Log.d("ItemDaoImpl#convertJsonSet() : 全件出力" ," => $it")
-        }
-
+        // ItemsOfBMIをJSONのString形式に変換する。
         return list
     }
 
@@ -174,6 +153,7 @@ class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
      * @return JSONをパースしたオブジェクトが返却される
      */
     private inline fun <reified T : Any> parseJSON(json: String) : T {
+        // json形式のオブジェクトをパースする。
         return jacksonObjectMapper().readValue(json ,T::class.java)
     }
 }

@@ -23,19 +23,12 @@ import java.util.*
 
 class HistoryListFragment : Fragment() {
     // 共有プリファレンスの情報をDIする
-    private lateinit var pref: SharedPreferences
     private lateinit var itemsService: ItemsService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        // なんで赤い波線はいるんや...
-        pref = PreferenceManager.getDefaultSharedPreferences(this.activity)
-        // ItemsServiceにDIする
-        itemsService = ItemsServiceImpl(pref)
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_history_list, container, false)
     }
@@ -57,6 +50,15 @@ class HistoryListFragment : Fragment() {
         Log.d("HistoryFragment#onViewCreated" ,"履歴表示終了")
     }
 
+
+    /** Activityから共有プリファレンスを扱うクラスをDIする */
+    fun intoItemsService(service: ItemsService) {
+        Log.d("HistoryListFragment#intoItemsService" ,"フィールド：itemsServiceを初期化しました。")
+        this.itemsService = service
+    }
+
+
+
     /** 検証用 */
     private fun createDataList(): ArrayList<RecyclerState> {
 
@@ -64,7 +66,7 @@ class HistoryListFragment : Fragment() {
         val calendar = Calendar.getInstance()
         val sdf = SimpleDateFormat("yyyyMMdd")
 
-        var section: Int? = 0
+        var sectionState: Int? = 0
         val states = arrayListOf<RecyclerState>()
 
 
@@ -88,22 +90,22 @@ class HistoryListFragment : Fragment() {
             }
 
             /** 生成されたデータのうち、月初ならセクションを追加する */
-            if (section != data.splitMonth()) {
-                val sectionState = RecyclerState(RecyclerType.SECTION ,data)
+            if (sectionState != data.splitMonth()) {
+                val section = RecyclerState(RecyclerType.SECTION ,data)
                 //Log.d("HistoryListFragment#createDataList" ,"セクションを追加します。")
-                states.add(sectionState)
+                states.add(section)
             }
 
             /** 生成された情報のうち、メモ以外を表示する。 */
-            val sectionState = RecyclerState(RecyclerType.BODY ,data)
-            states.add(sectionState)
+            val body = RecyclerState(RecyclerType.BODY ,data)
+            states.add(body)
 
-            section = data.splitMonth()
+            sectionState = data.splitMonth()
 
             /** メモにデータが登録されている場合はメモの内容を表示する。 */
             data.memo?.let {
-                val sectionState = RecyclerState(RecyclerType.DETAIL ,data)
-                states.add(sectionState)
+                val detail = RecyclerState(RecyclerType.DETAIL ,data)
+                states.add(detail)
 
                 Log.d("HistoryListFragment#createDataList" ,"DETAILを追加します。")
             }
@@ -111,6 +113,4 @@ class HistoryListFragment : Fragment() {
 
         return states
     }
-
-
 }

@@ -1,8 +1,8 @@
 package com.training.bmiapplication.adapter
 
-import android.util.Log
 import com.training.bmiapplication.entity.ItemsOfBMI
 
+/** RecyclerViewの表示タイプを保存するクラス */
 class RecyclerState() {
     constructor(type: RecyclerType ,item: ItemsOfBMI) : this() {
         this.type = type

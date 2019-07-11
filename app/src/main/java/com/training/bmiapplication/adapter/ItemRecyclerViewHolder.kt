@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.training.bmiapplication.R
 
 /**
- * BODY
+ * BODY用のHolder
  */
 class ItemRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val dateView: TextView = itemView.findViewById(R.id.dateColumn)
@@ -18,14 +18,14 @@ class ItemRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
 
 /**
- * SECTION
+ * SECTION用のHolder
  */
 class ItemRecyclerViewSectionHolder(itemView: View) :RecyclerView.ViewHolder(itemView) {
     val monthView: TextView = itemView.findViewById(R.id.monthSection)
 }
 
 /**
- * DETAIL
+ * DETAIL用のHolder
  */
 class ItemRecyclerViewDetailHolder(itemView: View) :RecyclerView.ViewHolder(itemView) {
     val memoView: TextView = itemView.findViewById(R.id.memoDetail)

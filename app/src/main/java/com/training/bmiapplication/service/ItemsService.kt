@@ -34,6 +34,7 @@ interface ItemsService {
 
     /**
      * 全件取得
+     * RecyclerViewの表示用に整形したリストを返却する。
      * @return List<ItemsOfBmi> 現在の登録情報を取得する
      */
     fun findAll(): ArrayList<RecyclerState>

@@ -1,12 +1,14 @@
 package com.training.bmiapplication.entity
 
-import android.util.Log
-import com.fasterxml.jackson.annotation.JsonProperty
 import java.text.SimpleDateFormat
 import java.util.*
 
 /**
  * リストに表示するセルの中身
+ * @param id 登録対象日付 yyyyMMddのString nullの場合はidを自動生成
+ * @param height 身長
+ * @param weight 体重
+ * @param memo メモ
  */
 open class ItemsOfBMI(
     var id: String?,
@@ -20,6 +22,11 @@ open class ItemsOfBMI(
         }
     }
 
+    /**
+     * セクション表示用 IDから月の値を取得して数値型で返却する<br>
+     * dtoなりを作成して、そっちに作ればよかった...
+     * @return idフィールドがnullになることはないので必ず数値型で返却される。
+     */
     fun splitMonth(): Int? {
         this.id?.let {
             return it.substring(4 ,6).toInt()
@@ -28,7 +35,7 @@ open class ItemsOfBMI(
     }
 
     /**
-     * 履歴画面表示用の日付
+     * 履歴画面に表示用の日付
      * 形式は日のみ（dd）
      * @return String dd
      */
@@ -56,7 +63,7 @@ open class ItemsOfBMI(
 
     /** 検証用 */
     override fun toString(): String {
-        return "ID : ${this.id} Height : ${this.height} Weight : ${this.weight} Memo : ${this.memo}"
+        return "id : ${this.id} height : ${this.height} weight : ${this.weight} memo : ${this.memo}"
     }
 
     /**

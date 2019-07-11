@@ -29,7 +29,6 @@ class InputFragment : Fragment() {
     private lateinit var item : ItemsOfBMI
 
     // 共有プリファレンスの情報をDIする
-    private lateinit var pref: SharedPreferences
     private lateinit var itemsService: ItemsService
 
     override fun onCreateView(
@@ -39,10 +38,8 @@ class InputFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_input, container, false)
 
-        // なんで赤い波線はいるんや...
-        pref = PreferenceManager.getDefaultSharedPreferences(activity)
-        // ItemsServiceにDIする
-        itemsService = ItemsServiceImpl(pref)
+        val historyFragment = HistoryListFragment()
+        historyFragment.intoItemsService(this.itemsService)
 
         itemsService.findNow()?.let {
             Log.d("InputFragment#onCreateView" ,"初期表示開始")
@@ -81,22 +78,28 @@ class InputFragment : Fragment() {
                     null,
                     heightInput.text.toString(),
                     weightInput.text.toString(),
-                    inputDetail?.text.toString()
+                    inputDetail?.text?.toString() // 「計算する」ボタンが押された時にメモ欄に入力があれば登録する。
                 )
 
                 // BMIを表示する
                 bmiResult.text = item.calcBMI()
 
-                Log.d("InputFragment#calcButton Click", "saveメソッド直前！")
                 // 計算したBMIをオブジェクトに保存
                 if (!itemsService.save(item)) {
                     itemsService.update(item.id, item)
                 }
-
-                Log.d("InputFragment#calcButton Click", "saveメソッド直後！")
             }
         }
         return view
+    }
+
+    fun intoItemsService(service: ItemsService) {
+        Log.d("InputFragment#intoItemsService" ,"フィールド：itemsServiceを初期化しました。")
+        this.itemsService = service
+    }
+
+    fun getItemsService(): ItemsService {
+        return this.itemsService
     }
 }
 

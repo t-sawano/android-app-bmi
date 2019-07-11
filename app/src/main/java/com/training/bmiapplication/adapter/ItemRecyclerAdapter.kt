@@ -15,7 +15,7 @@ import com.training.bmiapplication.entity.ItemsOfBMI
 class ItemRecyclerAdapter(private val itemList: ArrayList<RecyclerState>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.d("Adapter" ,"onBindViewHolder")
+        Log.d("ItemRecyclerAdapter#onBindViewHolder" ,"onBindViewHolder")
 
         when (holder) {
             // BODYを作成
@@ -55,7 +55,7 @@ class ItemRecyclerAdapter(private val itemList: ArrayList<RecyclerState>) : Recy
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        Log.d("Adapter" ,"onCreateViewHolder")
+        Log.d("ItemRecyclerAdapter#onCreateViewHolder" ,"onCreateViewHolder")
 
         when (RecyclerType.fromInt((viewType))) {
             /** SECTION */
@@ -84,8 +84,9 @@ class ItemRecyclerAdapter(private val itemList: ArrayList<RecyclerState>) : Recy
     override fun getItemViewType(position: Int): Int {
         return itemList[position].type.value
     }
+
     override fun getItemCount(): Int {
-        Log.d("Adapter" ,"getItemCount")
+        Log.d("ItemRecyclerAdapter#getItemCount" ,"getItemCount")
         return itemList.size
     }
 }

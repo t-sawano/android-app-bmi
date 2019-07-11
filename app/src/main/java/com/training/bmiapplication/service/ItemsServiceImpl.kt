@@ -15,11 +15,6 @@ class ItemsServiceImpl(pref: SharedPreferences) : ItemsService{
     // ItemsDaoをDIする
     private var itemsDao: ItemsDao = ItemsDaoImpl(pref)
 
-    /**
-     * 保存処理
-     * @param {ItemsOfBMI} 保存したいオブジェクトを引数にとる
-     * @return {Boolean} 保存に成功した場合は true
-     */
     override fun save(item: ItemsOfBMI): Boolean {
         if(itemsDao.save(item)) {
             itemsDao.flush()
@@ -56,6 +51,7 @@ class ItemsServiceImpl(pref: SharedPreferences) : ItemsService{
     override fun findAll(): ArrayList<RecyclerState> {
         val items = itemsDao.findAll()
 
+        // sectionは月初のrowの時に表示するので、現在の月を一時保持しておく
         var sectionState: Int? = 0
         val states = arrayListOf<RecyclerState>()
 
@@ -71,6 +67,7 @@ class ItemsServiceImpl(pref: SharedPreferences) : ItemsService{
             val body = RecyclerState(RecyclerType.BODY ,item)
             states.add(body)
 
+            // ここじゃくてもいいはず
             sectionState = item.splitMonth()
 
             /** DETAIL メモに情報が登録されているなら追加する */
@@ -82,14 +79,14 @@ class ItemsServiceImpl(pref: SharedPreferences) : ItemsService{
         }
 
         // セクションとバディ、メモのrowをそれぞれ格納して返却
-        return states// とりあえずそーとは後回し
+        return states
     }
 
     override fun flushFinal() {
         itemsDao.flush()
     }
 
-    /** ID生成処理 ..共通化した方がええんやろか */
+    /** ID生成処理 ... */
     private fun nowString(): String {
         val sdf = SimpleDateFormat("yyyyMMdd")
         return sdf.format(Date())
