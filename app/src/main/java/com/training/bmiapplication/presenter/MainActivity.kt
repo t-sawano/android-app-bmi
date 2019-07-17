@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.training.bmiapplication.R
+import com.training.bmiapplication.entity.ItemsOfBMI
 import com.training.bmiapplication.service.ItemsService
 import com.training.bmiapplication.service.ItemsServiceImpl
 import kotlinx.android.synthetic.main.activity_main.*
@@ -53,6 +54,19 @@ class MainActivity : AppCompatActivity() {
         pref = PreferenceManager.getDefaultSharedPreferences(this)
         // ItemsServiceにDIする
         itemsService = ItemsServiceImpl(pref)
+
+//        val testData = arrayOf(
+//            ItemsOfBMI("20190713" ,"180.9" ,"67.8" ,null),
+//            ItemsOfBMI("20190714" ,"214.3" ,"98" ,"テストデータメモ"),
+//            ItemsOfBMI("20190715" ,"123.4" ,"34.5" ,"""テストデータメモ２
+//                |
+//                |３行目""".trimMargin())
+//        )
+//
+//        testData.forEach {
+//            itemsService.update(it.id ,it)
+//        }
+//
 
         /** フッターメニュー 入力画面表示処理 */
         inputScreen.setOnClickListener {

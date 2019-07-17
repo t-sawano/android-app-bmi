@@ -22,7 +22,7 @@ enum class RecyclerType(val value: Int) {
 
     companion object {
         fun fromInt(value: Int): RecyclerType {
-            return values()?.firstOrNull {
+            return values().firstOrNull {
                 it.value == value
             } ?: BODY
         }
