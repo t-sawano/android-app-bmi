@@ -6,10 +6,16 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.training.bmiapplication.entity.ItemsOfBMI
 
-const val KEY_ITEMS_LIST = "KEY_ITEM_LIST"
-
-/** 共有プリファレンスをここで操作する */
+/**
+ * 共有プリファレンスをここで操作する
+ * ItemsDaoの実装クラス。
+ */
 class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
+
+    companion object {
+        /** 共有プリファレンスのKEY */
+        const val KEY_ITEMS_LIST = "KEY_ITEM_LIST"
+    }
 
     private var itemsList = mutableSetOf<ItemsOfBMI>()
     private var pref = sharedPreferences
@@ -94,7 +100,7 @@ class ItemsDaoImpl(sharedPreferences: SharedPreferences) : ItemsDao {
         }
 
         // 共有プリファレンスに現在の状態を保存する。
-        val saved = editor.putStringSet(KEY_ITEMS_LIST ,convertJsonSet())
+        editor.putStringSet(KEY_ITEMS_LIST ,convertJsonSet())
               .commit()
 
         Log.d("ItemsDaoImpl#flush" ,"共有プリファレンスへの保存が完了しました。")

@@ -2,6 +2,9 @@ package com.training.bmiapplication.dao
 
 import com.training.bmiapplication.entity.ItemsOfBMI
 
+/**
+ * 共有プリファレンスを扱うクラス
+ */
 interface ItemsDao {
     /**
      * 新規保存 <br>

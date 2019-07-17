@@ -2,15 +2,13 @@ package com.training.bmiapplication.presenter
 
 
 import android.app.AlertDialog
-import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.training.bmiapplication.R
 import com.training.bmiapplication.entity.ItemsOfBMI
 import com.training.bmiapplication.service.ItemsService
@@ -18,8 +16,10 @@ import com.training.bmiapplication.service.ItemsServiceImpl
 import kotlinx.android.synthetic.main.fragment_input.*
 import kotlinx.android.synthetic.main.fragment_result.*
 
-private const val KEY_BMI = "KEY_BMI"
-
+/**
+ * BMIの結果を表示するFragment
+ * メモを入力する欄と保存ボタン、削除ボタンの機能を持つ
+ */
 class ResultFragment : Fragment(){
 
     // ここに入力情報をセットする
@@ -35,7 +35,7 @@ class ResultFragment : Fragment(){
     ): View? {
         val view = inflater.inflate(R.layout.fragment_result, container, false)
 
-        // とりあえず動かなくなったので上長表現に戻しておく。
+        // とりあえず動かなくなったので冗長表現に戻しておく。
         this.itemsService = ItemsServiceImpl(PreferenceManager.getDefaultSharedPreferences(this.activity))
 
         /** 保存ボタン押下時処理 */
@@ -103,21 +103,5 @@ class ResultFragment : Fragment(){
         }
         // Inflate the layout for this fragment
         return view
-    }
-
-    /** Activityで、ResultFragmentのフィールドパラメータitemsServiceを初期化する。 */
-    fun intoItemsService(service: ItemsService) {
-        Log.d("ResultFragment#intoItemsService" ,"フィールド：itemsServiceを初期化しました。")
-        this.itemsService = service
-    }
-
-    // BMIの計算結果をResultFragmentに表示する。
-    private var bmiResult: Double? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            bmiResult = it.getDouble(KEY_BMI)
-        }
     }
 }

@@ -45,18 +45,21 @@
             android:id="@+id/heightInput"
             app:layout_constraintTop_toBottomOf="@+id/main_message" android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:autofillHints="" android:autoText="false"
-            android:background="@drawable/input_line_drawable"/>
+            app:layout_constraintStart_toStartOf="parent"
+            android:autofillHints="123.4"
+            android:background="@drawable/input_line_drawable" android:hint="@string/height_subject_hint"/>
     <EditText
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:inputType="numberDecimal"
             android:ems="10"
-            android:id="@+id/weightInput" android:layout_marginTop="8dp"
+            android:id="@+id/weightInput"
+            android:layout_marginTop="8dp"
+            android:autofillHints="34.5"
             app:layout_constraintTop_toBottomOf="@+id/heightInput" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent" android:importantForAutofill="no"
-            android:background="@drawable/input_line_drawable"/>
+            android:background="@drawable/input_line_drawable" android:hint="@string/weight_subject_hint"/>
     <TextView
             android:text="@string/height_unit_text"
             android:layout_width="wrap_content"

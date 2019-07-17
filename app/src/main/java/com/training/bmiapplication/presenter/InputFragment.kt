@@ -1,29 +1,64 @@
 package com.training.bmiapplication.presenter
 
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.training.bmiapplication.R
 import com.training.bmiapplication.entity.ItemsOfBMI
 import com.training.bmiapplication.service.ItemsService
-import com.training.bmiapplication.service.ItemsServiceImpl
+import com.training.bmiapplication.util.createID
 import kotlinx.android.synthetic.main.fragment_input.*
 import kotlinx.android.synthetic.main.fragment_result.*
 
-/** 正規表現 数字3桁 + 小数点一桁 */
-const val INPUT_REGEX = """\d{1,3}(\.\d)?"""
-const val HEIGHT_TYPE = "身長"
-const val WEIGHT_TYPE = "体重"
-
 class InputFragment : Fragment() {
+
+    companion object {
+        /** 正規表現 数字3桁 + 小数点一桁 */
+        const val INPUT_REGEX = """\d{1,3}(\.\d)?"""
+        const val HEIGHT_TYPE = "身長"
+        const val WEIGHT_TYPE = "体重"
+
+        /**
+         * 入力値の空文字チェック
+         * @param text 入力欄のID
+         * @param type 入力欄種類
+         * @return boolean エラーの場合 false : 空文字では無い場合 true
+         */
+        fun textIsEmpty(text: EditText ,type: String): Boolean {
+            // 空文字判定
+            if(text.text.toString().isEmpty()) {
+                text.error = "${type}の値を入力してください。"
+                return false
+            }
+            // 空白でなければtrueの返却
+            return true
+        }
+
+        /**
+         * 入力値のバリデーションチェック
+         * @param text 入力欄のID
+         * @param type 入力欄種類
+         * @return boolean エラーの場合 false : 正規表現にマッチした場合 true
+         */
+        fun textCheckRegex(text: EditText ,type: String ,regexString: String): Boolean {
+            val regex = regexString.toRegex()
+            // 正規表現チェック
+            if(!regex.matches(text.text.toString())) {
+                text.error = """
+                    |${type}の入力形式が違います。
+                    |入力形式は、数値3桁と小数点第一位までです。""".trimMargin()
+                return false
+            }
+            // 正規表現に合致すればtrueを返却
+            return true
+        }
+    }
 
     // ここに入力情報をセットする
     private lateinit var item : ItemsOfBMI
@@ -38,8 +73,6 @@ class InputFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_input, container, false)
 
-        val historyFragment = HistoryListFragment()
-        historyFragment.intoItemsService(this.itemsService)
 
         itemsService.findNow()?.let {
             Log.d("InputFragment#onCreateView" ,"初期表示開始")
@@ -75,7 +108,7 @@ class InputFragment : Fragment() {
 
                 // 身長と体重の入力情報をセットする
                 item = ItemsOfBMI(
-                    null,
+                    createID(),
                     heightInput.text.toString(),
                     weightInput.text.toString(),
                     inputDetail?.text?.toString() // 「計算する」ボタンが押された時にメモ欄に入力があれば登録する。
@@ -104,37 +137,3 @@ class InputFragment : Fragment() {
 }
 
 
-// バリデーション用のクラス作る？
-// ここでしか使ってないよ！？
-/**
- * 入力値の空文字チェック
- * @param EditText text 入力欄のID
- * @param String type 入力欄種類
- * @return boolean エラーの場合 false : 空文字では無い場合 true
- */
-fun textIsEmpty(text: EditText ,type: String): Boolean {
-    // 空文字判定
-    if(text.text.toString().isEmpty()) {
-        text.error = "${type}の値を入力してください。"
-        return false
-    }
-    // 空白でなければtrueの返却
-    return true
-}
-
-/**
- * 入力値のバリデーションチェック
- * @param EditText text 入力欄のID
- * @param String type 入力欄種類
- * @return boolean エラーの場合 false : 正規表現にマッチした場合 true
- */
-fun textCheckRegex(text: EditText ,type: String ,regexString: String): Boolean {
-    val regex = regexString.toRegex()
-    // 正規表現チェック
-    if(!regex.matches(text.text.toString())) {
-        text.error = "${type}の入力形式が違います。"
-        return false
-    }
-    // 正規表現に合致すればtrueを返却
-    return true
-}

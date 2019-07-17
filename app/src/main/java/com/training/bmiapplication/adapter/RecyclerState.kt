@@ -3,18 +3,9 @@ package com.training.bmiapplication.adapter
 import com.training.bmiapplication.entity.ItemsOfBMI
 
 /** RecyclerViewの表示タイプを保存するクラス */
-class RecyclerState() {
-    constructor(type: RecyclerType ,item: ItemsOfBMI) : this() {
-        this.type = type
-        this.item = item
+data class RecyclerState(val type: RecyclerType , val item: ItemsOfBMI)
 
-        // Log.d("RecyclerState" ,"$type $item")
-    }
-
-    lateinit var type: RecyclerType
-    lateinit var item: ItemsOfBMI
-}
-
+/** 履歴表示の場合わけをするenumクラス */
 enum class RecyclerType(val value: Int) {
     BODY(0),
     SECTION(1) ,
@@ -22,7 +13,7 @@ enum class RecyclerType(val value: Int) {
 
     companion object {
         fun fromInt(value: Int): RecyclerType {
-            return values()?.firstOrNull {
+            return values().firstOrNull {
                 it.value == value
             } ?: BODY
         }

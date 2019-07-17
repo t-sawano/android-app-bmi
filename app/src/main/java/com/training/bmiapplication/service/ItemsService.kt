@@ -3,6 +3,9 @@ package com.training.bmiapplication.service
 import com.training.bmiapplication.adapter.RecyclerState
 import com.training.bmiapplication.entity.ItemsOfBMI
 
+/**
+ * 共有プリファレンスへのCRUD操作サービス層
+ */
 interface ItemsService {
 
     /**

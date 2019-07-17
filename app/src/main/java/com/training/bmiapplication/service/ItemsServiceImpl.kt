@@ -10,13 +10,16 @@ import com.training.bmiapplication.entity.ItemsOfBMI
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * ItemsServiceの実装クラス
+ */
 class ItemsServiceImpl(pref: SharedPreferences) : ItemsService{
 
     // ItemsDaoをDIする
     private var itemsDao: ItemsDao = ItemsDaoImpl(pref)
 
-    override fun save(item: ItemsOfBMI): Boolean {
-        if(itemsDao.save(item)) {
+    override fun save(items: ItemsOfBMI): Boolean {
+        if(itemsDao.save(items)) {
             itemsDao.flush()
             return true
         }

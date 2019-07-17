@@ -1,11 +1,10 @@
 package com.training.bmiapplication.presenter
 
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.training.bmiapplication.R
@@ -14,11 +13,16 @@ import com.training.bmiapplication.service.ItemsServiceImpl
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_footer.*
 
-/** 定数が各クラスにばらけているけど、そこのクラスでしか使わないから... privateなフィールドでよくない？ */
-private const val INPUT_TITLE_TEXT = "入力"
-private const val HISTORY_TITLE_TEXT = "履歴"
-
+/**
+ * MainActivity
+ * ここに各種表示用のfragmentを貼り付ける。
+ */
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        private const val INPUT_TITLE_TEXT = "入力"
+        private const val HISTORY_TITLE_TEXT = "履歴"
+    }
 
     // 共有プリファレンスの情報をDIする
     private lateinit var pref: SharedPreferences
@@ -35,14 +39,12 @@ class MainActivity : AppCompatActivity() {
         val titleFragment = titleFragment as? TitleFragment
         titleFragment?.setTitle(INPUT_TITLE_TEXT)
 
-        // 初期表示を入力画面とする
         val inputFragment = InputFragment()
         this.fragmentManager = this.supportFragmentManager
-        this.fragmentTransaction = fragmentManager.beginTransaction()
+        this.fragmentTransaction = this.fragmentManager.beginTransaction()
 
-        this.fragmentTransaction.replace(R.id.container,inputFragment)
-            .addToBackStack(null)
-            .commit()
+        fragmentTransaction.replace(R.id.container ,inputFragment)
+                           .commit()
 
         // 共有プリファレンスの状態をMainActivityの生成時に取得する
         pref = PreferenceManager.getDefaultSharedPreferences(this)
@@ -92,7 +94,8 @@ class MainActivity : AppCompatActivity() {
             // 履歴画面フラグメントにItemsServiceをDIする。
             newHistoryFragment.intoItemsService(this.itemsService)
 
-            this.fragmentTransaction.replace(R.id.container,newHistoryFragment)
+            this.fragmentTransaction
+                .replace(R.id.container,newHistoryFragment)
                 .addToBackStack(null)
                 .commit()
 

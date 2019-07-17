@@ -1,8 +1,6 @@
 package com.training.bmiapplication.entity
 
-import java.text.SimpleDateFormat
-import java.util.*
-
+// TODO 好みの問題もありそうですが、dataとロジックは分割したいです data class にしたい。
 /**
  * リストに表示するセルの中身
  * @param id 登録対象日付 yyyyMMddのString nullの場合はidを自動生成
@@ -10,28 +8,19 @@ import java.util.*
  * @param weight 体重
  * @param memo メモ
  */
-open class ItemsOfBMI(
-    var id: String?,
+class ItemsOfBMI(
+    var id: String,
     var height: String,
     var weight: String,
     var memo: String?) {
-
-    init {
-        if(this.id == null) {
-            this.id = createID()
-        }
-    }
 
     /**
      * セクション表示用 IDから月の値を取得して数値型で返却する<br>
      * dtoなりを作成して、そっちに作ればよかった...
      * @return idフィールドがnullになることはないので必ず数値型で返却される。
      */
-    fun splitMonth(): Int? {
-        this.id?.let {
-            return it.substring(4 ,6).toInt()
-        }
-        return null
+    fun splitMonth(): Int {
+        return this.id.substring(4 ,6).toInt()
     }
 
     /**
@@ -40,10 +29,8 @@ open class ItemsOfBMI(
      * @return String dd
      */
     fun splitDate(): Int? {
-        this.id?.let {
-            return it.substring(it.length - 2).toInt()
-        }
-        return null
+        return this.id.substring(id.length - 2).toInt()
+
     }
 
     /**
@@ -66,11 +53,4 @@ open class ItemsOfBMI(
         return "id : ${this.id} height : ${this.height} weight : ${this.weight} memo : ${this.memo}"
     }
 
-    /**
-     * 今日日付を「yyyyMMdd」の形式で整形する
-     */
-    private fun createID(): String {
-        val sdf = SimpleDateFormat("yyyyMMdd")
-        return sdf.format(Date())
-    }
 }

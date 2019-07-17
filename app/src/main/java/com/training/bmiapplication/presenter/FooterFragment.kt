@@ -8,6 +8,10 @@ import android.view.ViewGroup
 import com.training.bmiapplication.R
 
 
+/**
+ * フッター用のフラグメント
+ * メインの機能はMainActivityに記載
+ */
 class FooterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
